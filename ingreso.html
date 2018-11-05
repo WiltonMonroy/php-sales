@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+	<head>
+	  <title>Ingreso</title>
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
+	  
+	   	  
+		
+		
+		<!--
+		<link rel="stylesheet" href="css/bootstrap/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+		<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+		-->
+		
+		
+		
+		<script src="./js/jquery-3.1.1.js"></script>
+		<script src="./js/bootstrap.min.js"></script>
+		<script src="./js/ingreso.js?a=2"></script>
+		<link rel="stylesheet" href="css/bootstrap/dist/css/bootstrap.min.css">
+		
+				<script src="./js/datatables.min.js"></script>
+		<link rel="stylesheet" href="css/bootstrap/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/dataTables.bootstrap.min.css">
+		
+		
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+	  
+	  
+	</head>
+
+
+	<body>
+	
+	
+	
+		<input id="hfDetalles" type="hidden" value="">
+		<input id="hfTotal" type="hidden" value="">
+		<input id="hfEncabezado" type="hidden" value="">
+		<input id="hfIdUsuario" type="hidden" value="">
+	
+		<nav class="navbar navbar-inverse">
+		  <div class="container-fluid">
+			<div class="navbar-header">
+			  <a class="navbar-brand" href="#">Sistema de Entregas</a>
+			</div>
+			<ul class="nav navbar-nav">
+			  <li><a href="inicio.html">Inicio</a></li>
+			  <li class="active"><a href="ingreso.html">Ingreso</a></li>
+			  <li><a href="listado.html">Listado</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+			  <li><a href="#"><span class="glyphicon glyphicon-user"></span> <span id="spNombre"></span>  </a></li>
+			  <li><a href="index.html"><span class="glyphicon glyphicon-log-in"></span> Salir</a></li>
+			</ul>
+		  </div>
+		</nav>
+
+
+		<div class="container">
+		  <h2>Detalle de entrega de productos alimenticios a usuarios de la intervención</h2>
+		  
+		  <div style="display:none">
+		  <table id="example" class="display" width="100%"></table>
+		  </div>
+			 
+		  <form style="margin-top:20px">
+		  
+				<div class="row">
+				<fieldset>
+					<legend>Encabezado</legend>
+					
+					  
+					<div class="col-lg-4" style="margin-top:10px">
+						<label for="txtIdentificacion">Nombre</label>
+						<input id="txtIdentificacion" class="form-control" name="txtIdentificacion" type="text" />
+					</div>
+				
+					<div class="col-lg-2" style="margin-top:10px">
+						<label for="txtDPI">DPI</label>
+						<input id="txtDPI" class="form-control" name="txtDPI" type="text" maxlength="13" onkeypress="return ValidarSoloNumeros(event);" />
+					</div>
+				
+					<div class="col-lg-2" style="margin-top:10px">
+						<label for="txtAutorizacion">Autorización</label>
+						<input id="txtAutorizacion" class="form-control" name="txtAutorizacion" type="text" />
+					</div>
+					
+					<div class="col-lg-2" style="margin-top:10px">
+						<label for="txtFecha">Fecha</label>
+						<input id="txtFecha" class="form-control" name="txtFecha" type="text"  onkeypress="return MascaraFecha(this,event)" value='' onblur="if (this.value.trim() == '') this.value='__/__/____'"   placeholder="dd/mm/yyyy" />
+					</div>
+					
+					<div class="box-body col-lg-2" style="margin-top:35px">
+					  <button id="btnLimpiarEncabezado" type="button" class="btn btn-info btn-block btn-flat">Limpiar</button>
+					</div>
+					
+					<div class="box-body col-lg-2" style="margin-top:35px; display:none">
+					  <button type="button" class="btn btn-danger btn-block btn-flat">Comenzar</button>
+					</div>
+					
+					</fieldset>
+				
+				</div>
+				
+
+		  
+				<div class="row"  style="margin-top:20px">
+				<fieldset>
+					<legend>Detalle de Productos</legend>
+				
+					<div class="col-lg-3" style="margin-top:10px">
+						<label for="dllProducto">Producto</label>
+						<select id="dllProducto" class="form-control" name="dllProducto">
+							<option value="0">Elija Producto</option>
+						</select>
+					</div>
+					<div class="col-lg-2" style="margin-top:10px">
+						<label for="txtPrecio">Precio</label>
+						<input id="txtPrecio" class="form-control" name="txtPrecio" type="text" onkeypress="return ValidarNumerosDecimales(event);" />
+					</div>
+					
+					  
+					<div class="col-lg-2" style="margin-top:10px">
+						<label for="txtCantidad">Cantidad</label>
+						<input id="txtCantidad" class="form-control" name="txtCantidad" type="text" onkeypress="return ValidarSoloNumeros(event);" />
+					</div>
+					
+					<div class="box-body col-lg-2"  style="margin-top:35px">
+					  <button id="btnAgregar" type="button" class="btn btn-primary btn-block btn-flat">Agregar</button>
+					</div>
+					
+					<div class="box-body col-lg-2" style="margin-top:35px">
+					  <button id="btnLimpiarDetalle"  type="button" class="btn btn-info btn-block btn-flat">Limpiar</button>
+					</div>
+					
+					<div class="box-body col-lg-2" style="margin-top:35px; display:none">
+					  <button type="button" class="btn btn-danger btn-block btn-flat">Comenzar</button>
+					</div>
+					
+					<!--<div class="col-lg-2">
+						<button id="btn-buscar" class="btn btn-primary pull-right">Buscar</button>
+					</div>
+					<div class="col-lg-2">
+						<button id="btn-limpiar" class="btn btn-danger pull-left">Limpiar</button>
+					</div>-->
+					
+				</fieldset>	
+				</div>
+			
+		  </form>
+		</div>
+		
+		<div class="container" id="divTabla" style="margin-top:20px; display:block">
+		<!--<div id="divTabla" style="width:98%; margin-left:1%; margin-top:20px; display:block" class="table-responsive">-->
+
+			<table id="tbDetalles" class="table table-striped table-hover" style="width: 100% !important;">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Producto</th>
+						<th>Precio</th>
+						<th>Cantidad</th>
+						<th>Total Despachado </th>
+						<th>Eliminar </th>
+					</tr>
+				</thead>
+				</tbody>
+			</table>
+
+		</div>
+		
+		<div class="container">
+			<div class="box-body col-lg-3"  style="margin-top:35px">
+			  <button id="btnAlmacenar" type="button" class="btn btn-primary btn-block btn-flat disabled">Almacenar</button>
+			</div>
+			<div class="box-body col-lg-3"  style="margin-top:35px; display:none">
+			  <button type="button" class="btn btn-danger btn-block btn-flat disabled">Pdf</button>
+			</div>
+			<div class="box-body col-lg-3 pull-right"  style="margin-top:15px;">
+			  <h1>Total: <span id="spTotal"></span></h1>
+			</div>
+		</div>
+				
+		<!-- Modal -->
+		<div id="myModal" class="modal fade" role="dialog" style="z-index:6000">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Error</h4>
+					</div>
+					<div class="modal-body">
+						<p><span id="spTexto"></span></p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		
+		
+	</body>
+		
+</html>
+
+
+   
+

@@ -1,0 +1,120 @@
+create database  MIDES;
+
+use MIDES;
+
+create table producto(
+	id_producto INT AUTO_INCREMENT PRIMARY KEY,
+	nombre varchar(100)
+);
+
+insert into producto(nombre) values ('LECHE');
+
+insert into producto(nombre) values ('HUEVOS');
+
+insert into producto(nombre) values ('PASTA');
+
+insert into producto(nombre) values ('FRIJOL EN GRANO');
+
+insert into producto(nombre) values ('ARROZ');
+
+insert into producto(nombre) values ('HARINA DE MAIZ (MASECA)');
+
+insert into producto(nombre) values ('AZUCAR');
+
+insert into producto(nombre) values ('ACEITE VEGETAL');
+
+insert into producto(nombre) values ('ATOL FORTIFICADO');
+
+insert into producto(nombre) values ('SAL');
+
+
+
+create table rol(
+	id_rol int PRIMARY key,
+	nombre varchar(50)
+);
+
+insert into rol (id_rol, nombre) values (1, 'ADMIN');
+
+insert into rol (id_rol, nombre) values (2, 'EMPRESA');
+
+
+create table usuario(
+	id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+	usuario varchar(100),
+	clave varchar(100),
+	id_rol int,
+	estado int
+);
+
+ALTER TABLE usuario
+ADD CONSTRAINT FK_usuario_rol
+FOREIGN KEY (id_rol) REFERENCES rol(id_rol);
+
+
+
+create table empresa(
+	id_empresa INT AUTO_INCREMENT PRIMARY KEY,
+	nombre varchar(100),
+	direccion varchar(200),
+	telefono varchar(8),
+	correo varchar(100),
+	id_usuario int,
+	estado int 
+);
+
+ALTER TABLE empresa
+ADD CONSTRAINT FK_empresa_usuario
+FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario);
+
+
+create table cliente (
+	id_cliente INT AUTO_INCREMENT PRIMARY KEY,
+	nombre varchar(100),
+	dpi varchar(13),
+	nit varchar(13),
+	telefono varchar(8),
+	correo varchar(100),
+	estado int
+);
+
+drop table factura
+
+create table factura (
+	id_factura INT AUTO_INCREMENT PRIMARY KEY,
+	id_cliente int,
+	id_usuario int,
+	autorizacion varchar(50),
+	fecha_factura date,
+	fecha datetime,
+	total double (8,2) null,
+	estado int
+);
+
+
+ALTER TABLE factura
+ADD CONSTRAINT FK_factura_cliente
+FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente);
+
+ALTER TABLE factura
+ADD CONSTRAINT FK_factura_usuario
+FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario);
+
+
+create table detalle_factura(
+	id_detalle_factura INT AUTO_INCREMENT PRIMARY KEY,
+	id_factura int,
+	id_producto int,
+	cantidad int,
+	precio double (8,2),
+	subtotal double (8,2),
+	estado int 
+);
+
+ALTER TABLE detalle_factura
+ADD CONSTRAINT FK_detalle_factura
+FOREIGN KEY (id_factura) REFERENCES factura(id_factura);
+
+ALTER TABLE detalle_factura
+ADD CONSTRAINT FK_detalle_factura_producto
+FOREIGN KEY (id_producto) REFERENCES producto(id_producto);
